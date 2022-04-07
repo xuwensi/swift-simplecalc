@@ -122,6 +122,7 @@ calculate("1 -2 3 -4 5 count") == 5
 
 func calculate(_ args: [String]) -> Double {
     let operation = args[1]
+    var method = ""
     switch operation {
         case "+":
             return Double(args[0])! + Double(args[2])!
@@ -134,11 +135,18 @@ func calculate(_ args: [String]) -> Double {
         case "%":
         return Double(args[0])!.truncatingRemainder(dividingBy: Double(args[2])!)
         default:
-            return -1.0
+            method = args[args.count - 1]
+    }
+    switch method {
+        case "count":
+            return Double(args.count - 1)
+    default:
+        return -1
     }
 }
 func calculate(_ arg: String) -> Double {
-    return -1.0
+    let args = arg.components(separatedBy: " ")
+    return calculate(args)
 }
 calculate(["2.0", "+", "2.0"]) == 4.0
 calculate([".5", "+", "1.5"]) == 2.0
@@ -146,5 +154,5 @@ calculate(["12.0", "-", "12.0"]) == 0.0
 calculate(["2.5", "*", "2.5"]) == 6.25
 calculate(["2.0", "/", "2.0"]) == 1.0
 calculate(["2.0", "%", "2.0"]) == 0.0
-calculate("1.0 2.0 3.0 4.0 5.0 count") == 5
+calculate("1.0 2.0 3.0 4.0 5.0 count") == 5.0
 
